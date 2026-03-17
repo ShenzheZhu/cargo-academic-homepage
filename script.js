@@ -43,8 +43,8 @@ async function loadPage(page) {
     // Update page title
     const pageTitles = { about: 'About', publications: 'Publications', misc: 'Miscellaneous', home: 'Home' };
     document.title = pageTitles[page]
-      ? `${pageTitles[page]} — Shenzhe Zhu`
-      : 'Shenzhe Zhu';
+      ? `${pageTitles[page]} — Your Name`
+      : 'Your Name';
 
     // Animate in
     content.classList.remove('fading-out');
