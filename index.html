@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Your Name</title>
+  <meta name="description"
+    content="Your Name — researcher in Your Research Area." />
+  <meta name="author" content="Your Name" />
+  <meta name="keywords"
+    content="Your Name, Research, University, Computer Science" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;480;500&family=Space+Mono&display=swap">
+  <link rel="stylesheet" href="style.css?v=1" />
+  <link rel="icon" type="image/png" href="asset/favicon.png">
+  <meta name="theme-color" content="#ffffff">
+</head>
+
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+  <!-- Mobile top bar -->
+  <div class="mobile-header">
+    <span class="mobile-header-name">Your Name</span>
+    <button class="mobile-menu-btn" id="menu-toggle" aria-expanded="false" aria-controls="sidebar">Menu</button>
+  </div>
+
+  <div class="container">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h1><a href="#" data-page="home">Your Name</a></h1>
+        <span class="sidebar-subtitle">Your Research Area</span>
+      </div>
+
+      <div class="sidebar-info">
+        <a href="mailto:your@email.com">Email</a>
+        <a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="#" target="_blank" rel="noopener noreferrer">Github</a>
+        <a href="#" target="_blank" rel="noopener noreferrer">Google Scholar</a>
+      </div>
+
+      <nav>
+        <ol class="nav-index">
+          <li><a href="#about" data-page="about">About Me</a></li>
+          <li><a href="#publications" data-page="publications">Publications</a></li>
+          <li><a href="#misc" data-page="misc">Miscellaneous</a></li>
+        </ol>
+      </nav>
+      <footer class="site-footer site-footer--sidebar">&copy; Your Footer Here</footer>
+    </aside>
+
+    <main id="content">
+      <!-- Content will load here -->
+    </main>
+  </div>
+
+  <!-- Mobile bottom bar -->
+  <div class="mobile-footer">
+    <button class="mobile-footer-btn" id="btn-top">Top</button>
+    <button class="mobile-footer-btn" id="btn-top-right">Top</button>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="image-modal" class="modal" role="dialog" aria-modal="true" aria-label="Image preview" tabindex="-1">
+    <img class="modal-content" id="modal-img" alt="">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
