@@ -17,9 +17,9 @@ function setActiveLink(page) {
 
 async function loadPage(page) {
   lastLoadedPage = page;
+  document.body.classList.toggle('page-home', page === 'home');
   try {
-    const base = document.querySelector('base')?.href || new URL('.', location.href).href;
-    const response = await fetch(new URL(`pages/${page}.html`, base));
+    const response = await fetch(`pages/${page}.html`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const html = await response.text();
 
@@ -32,12 +32,24 @@ async function loadPage(page) {
     window.scrollTo(0, 0);
 
     // Publications year grouping
-    if (page === 'publications') groupPublicationsByYear();
+    if (page === 'publications') {
+      groupPublicationsByYear();
+      initPubTabs();
+    }
+
+    if (page === 'home') initGallery();
 
     // Make pub-images keyboard accessible
     content.querySelectorAll('.pub-image').forEach(img => {
       img.setAttribute('tabindex', '0');
       img.setAttribute('role', 'button');
+    });
+
+    // Make home gallery images keyboard accessible
+    content.querySelectorAll('.gallery-slide img').forEach(img => {
+      img.setAttribute('tabindex', '0');
+      img.setAttribute('role', 'button');
+      img.setAttribute('aria-label', 'Open image preview');
     });
 
     // Update page title
@@ -106,6 +118,110 @@ function groupPublicationsByYear() {
   container.removeChild(placeholder);
 }
 
+let galleryTimer = null;
+let galleryResetTimer = null;
+function initGallery() {
+  if (galleryTimer) { clearInterval(galleryTimer); galleryTimer = null; }
+  if (galleryResetTimer) { clearTimeout(galleryResetTimer); galleryResetTimer = null; }
+  const gallery = content.querySelector('.home-gallery');
+  if (!gallery) return;
+
+  const track = gallery.querySelector('.gallery-track');
+  const caption = gallery.querySelector('.gallery-caption');
+  if (!track) return;
+
+  track.querySelectorAll('.gallery-slide[data-clone="true"]').forEach(slide => slide.remove());
+  const slides = Array.from(track.querySelectorAll('.gallery-slide'));
+  if (!slides.length) return;
+
+  const firstClone = slides[0].cloneNode(true);
+  firstClone.dataset.clone = 'true';
+  firstClone.setAttribute('aria-hidden', 'true');
+  track.appendChild(firstClone);
+
+  const interval = parseInt(gallery.dataset.interval, 10) || 5000;
+  const transitionMs = 600;
+  const realCount = slides.length;
+  let idx = 0;
+  let isResetting = false;
+
+  function show(i, animate = true) {
+    idx = i;
+    track.style.transition = animate ? '' : 'none';
+    track.style.transform = `translateX(-${idx * 100}%)`;
+    const realIdx = idx % realCount;
+    if (caption) caption.innerHTML = slides[realIdx].dataset.caption || '';
+    slides.forEach((slide, slideIdx) => {
+      slide.setAttribute('aria-hidden', slideIdx === realIdx ? 'false' : 'true');
+    });
+    if (!animate) {
+      void track.offsetWidth;
+      track.style.transition = '';
+    }
+  }
+
+  show(0);
+  if (slides.length < 2) return;
+
+  galleryTimer = setInterval(() => {
+    if (isResetting) return;
+
+    const nextIdx = idx + 1;
+    if (nextIdx >= realCount) {
+      isResetting = true;
+      show(realCount);
+      galleryResetTimer = setTimeout(() => {
+        show(0, false);
+        isResetting = false;
+      }, transitionMs + 30);
+      return;
+    }
+    show(nextIdx);
+  }, interval);
+}
+
+function initPubTabs() {
+  const tabs = content.querySelectorAll('.pub-tab');
+  if (!tabs.length) return;
+
+  function applyFilter(filter) {
+    const pubs = content.querySelectorAll('.publication');
+    pubs.forEach(pub => {
+      const isSelected = pub.dataset.selected === 'true';
+      pub.style.display = (filter === 'all' || isSelected) ? '' : 'none';
+      pub.classList.remove('pub-last-visible');
+    });
+
+    let firstVisibleSection = null;
+    content.querySelectorAll('.year-section').forEach(section => {
+      section.classList.remove('year-first-visible');
+      const visiblePubs = Array.from(section.querySelectorAll('.publication'))
+        .filter(p => p.style.display !== 'none');
+      if (visiblePubs.length) {
+        section.style.display = '';
+        visiblePubs[visiblePubs.length - 1].classList.add('pub-last-visible');
+        if (!firstVisibleSection) firstVisibleSection = section;
+      } else {
+        section.style.display = 'none';
+      }
+    });
+    if (firstVisibleSection) firstVisibleSection.classList.add('year-first-visible');
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.toggle('active', t === tab);
+        t.setAttribute('aria-selected', t === tab);
+      });
+      applyFilter(tab.dataset.filter);
+    });
+  });
+
+  const activeTab = content.querySelector('.pub-tab.active');
+  applyFilter(activeTab ? activeTab.dataset.filter : 'selected');
+}
+
 // Scroll reveal — Cargo-style scale-in
 function initScrollReveal() {
   const targets = content.querySelectorAll('.year-section, .publication, .news-section');
@@ -146,7 +262,7 @@ links.forEach(link => {
 // Hash navigation (back/forward only — skip if triggered by click)
 let lastLoadedPage = null;
 window.addEventListener('hashchange', () => {
-  const page = location.hash ? location.hash.slice(1) : 'about';
+  const page = location.hash ? location.hash.slice(1) : 'home';
   if (page === lastLoadedPage) return;
   setActiveLink(page);
   loadPage(page);
@@ -156,7 +272,8 @@ window.addEventListener('hashchange', () => {
 (function initLightbox() {
   const modal = document.getElementById('image-modal');
   const modalImg = document.getElementById('modal-img');
-  if (!modal || !modalImg) return;
+  const closeBtn = document.getElementById('modal-close');
+  if (!modal || !modalImg || !closeBtn) return;
 
   let lastFocused = null;
 
@@ -176,17 +293,20 @@ window.addEventListener('hashchange', () => {
   }
 
   document.addEventListener('click', e => {
-    if (e.target.classList.contains('pub-image')) openModal(e.target);
+    if (e.target.matches('.pub-image, .gallery-slide img')) openModal(e.target);
   });
 
   document.addEventListener('keydown', e => {
-    if (e.target.classList.contains('pub-image') && (e.key === 'Enter' || e.key === ' ')) {
+    if (e.target.matches('.pub-image, .gallery-slide img') && (e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault();
       openModal(e.target);
     }
   });
 
-  modal.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+  closeBtn.addEventListener('click', closeModal);
 
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
@@ -227,6 +347,16 @@ window.addEventListener('hashchange', () => {
 })();
 
 // Initial load
-const initialPage = location.hash ? location.hash.slice(1) : 'about';
+const initialPage = location.hash ? location.hash.slice(1) : 'home';
 setActiveLink(initialPage);
 loadPage(initialPage);
+
+// Easter egg
+(function initEasterEgg() {
+  const trigger = document.getElementById('easter-egg');
+  const overlay = document.getElementById('easter-egg-overlay');
+  if (!trigger || !overlay) return;
+
+  trigger.addEventListener('click', () => overlay.classList.add('active'));
+  overlay.addEventListener('click', () => overlay.classList.remove('active'));
+})();
