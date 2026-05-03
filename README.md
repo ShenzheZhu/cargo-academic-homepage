@@ -4,14 +4,14 @@ A minimal, Cargo-inspired academic homepage template. No frameworks, no build to
 
 **[Live Demo](https://shenzhezhu.github.io/SimpleAcademicHomepage/)**
 
-![Demo Screenshot](https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/demo.png?v=3)
+![Demo Screenshot](https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/demo.png?v=4)
 
 ### Home gallery (auto-rotating)
 
 <p>
   <img src="https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/gallery-demo-1.jpg" width="32%" alt="Home gallery — Villas at Bordighera">
   <img src="https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/gallery-demo-2.jpg" width="32%" alt="Home gallery — Portrait of Young Danqing Chen">
-  <img src="https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/gallery-demo-3.jpg" width="32%" alt="Home gallery — Wheatstacks">
+  <img src="https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/gallery-demo-3.jpg?v=2" width="32%" alt="Home gallery — Wheatstacks">
 </p>
 
 ## Features
