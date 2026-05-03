@@ -6,6 +6,14 @@ A minimal, Cargo-inspired academic homepage template. No frameworks, no build to
 
 ![Demo Screenshot](https://raw.githubusercontent.com/ShenzheZhu/designer-academic-homepage/main/asset/demo.png?v=3)
 
+### Home gallery (auto-rotating)
+
+<p>
+  <img src="https://raw.githubusercontent.com/ShenzheZhu/designer-academic-homepage/main/asset/gallery-demo-1.jpg" width="32%" alt="Home gallery — Villas at Bordighera">
+  <img src="https://raw.githubusercontent.com/ShenzheZhu/designer-academic-homepage/main/asset/gallery-demo-2.jpg" width="32%" alt="Home gallery — Portrait of Young Danqing Chen">
+  <img src="https://raw.githubusercontent.com/ShenzheZhu/designer-academic-homepage/main/asset/gallery-demo-3.jpg" width="32%" alt="Home gallery — Wheatstacks">
+</p>
+
 ## Features
 
 - **Two-column editorial layout** — Fixed sidebar + scrollable content, inspired by [Cargo](https://cargo.site/) templates
