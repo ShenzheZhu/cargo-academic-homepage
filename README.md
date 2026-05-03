@@ -2,16 +2,16 @@
 
 A minimal, Cargo-inspired academic homepage template. No frameworks, no build tools — just HTML, CSS, and vanilla JS.
 
-**[Live Demo](https://shenzhezhu.github.io/designer-academic-homepage/)**
+**[Live Demo](https://shenzhezhu.github.io/SimpleAcademicHomepage/)**
 
-![Demo Screenshot](https://raw.githubusercontent.com/ShenzheZhu/designer-academic-homepage/main/asset/demo.png?v=3)
+![Demo Screenshot](https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/demo.png?v=3)
 
 ### Home gallery (auto-rotating)
 
 <p>
-  <img src="https://raw.githubusercontent.com/ShenzheZhu/designer-academic-homepage/main/asset/gallery-demo-1.jpg" width="32%" alt="Home gallery — Villas at Bordighera">
-  <img src="https://raw.githubusercontent.com/ShenzheZhu/designer-academic-homepage/main/asset/gallery-demo-2.jpg" width="32%" alt="Home gallery — Portrait of Young Danqing Chen">
-  <img src="https://raw.githubusercontent.com/ShenzheZhu/designer-academic-homepage/main/asset/gallery-demo-3.jpg" width="32%" alt="Home gallery — Wheatstacks">
+  <img src="https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/gallery-demo-1.jpg" width="32%" alt="Home gallery — Villas at Bordighera">
+  <img src="https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/gallery-demo-2.jpg" width="32%" alt="Home gallery — Portrait of Young Danqing Chen">
+  <img src="https://raw.githubusercontent.com/ShenzheZhu/SimpleAcademicHomepage/main/asset/gallery-demo-3.jpg" width="32%" alt="Home gallery — Wheatstacks">
 </p>
 
 ## Features
@@ -27,8 +27,8 @@ A minimal, Cargo-inspired academic homepage template. No frameworks, no build to
 ## Quick Start
 
 ```bash
-git clone https://github.com/ShenzheZhu/designer-academic-homepage.git
-cd designer-academic-homepage
+git clone https://github.com/ShenzheZhu/SimpleAcademicHomepage.git
+cd SimpleAcademicHomepage
 ```
 
 Open `index.html` in your browser, or serve locally:
